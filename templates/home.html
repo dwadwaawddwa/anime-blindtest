@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% set active = "home" %}
+{% block body %}
+<main class="home">
+  <section class="hero">
+    <div class="brand big"><span class="dwa">DWA</span><span class="word">blindtest</span></div>
+    {% if user %}
+      <p>Openings, endings, inserts et OST des animes de ta liste. Crée un salon, donne le code à tes potes :
+        les musiques viennent de ce que vous avez vu en commun (ou de ce que l'un de vous a vu, c'est toi qui règles).</p>
+      <div class="hero-actions">
+        <button class="btn accent big" id="create">＋ Créer une partie</button>
+        <form class="join" id="join-form">
+          <input id="join-code" maxlength="5" placeholder="CODE" autocomplete="off" aria-label="Code du salon">
+          <button class="btn big">Rejoindre</button>
+        </form>
+      </div>
+    {% else %}
+      <p>Blind test sur les musiques des animes de ta liste (openings, endings, OST), seul ou à plusieurs,
+        avec ton compte anime.dwa.gold.</p>
+      <a class="btn accent big" href="/login">Se connecter avec mon compte anime.dwa.gold</a>
+    {% endif %}
+    <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  {% if user %}
+  <section class="card">
+    <h2 class="section-title">Démarrer avec un preset</h2>
+    <div class="preset-grid" id="presets"></div>
+  </section>
+  {% endif %}
+
+  <div class="grid2">
+    {% if user %}
+    <section class="card">
+      <h2 class="section-title">Mes dernières parties</h2>
+      {% if recent %}
+        <div class="list-rows">
+          {% for g in recent %}
+            <a class="row" href="/partie/{{ g.id }}">
+              <span class="rank-badge rank-{{ g.rank }}">#{{ g.rank }}</span>
+              <span class="grow">{{ g.players }} joueur{{ "s" if g.players > 1 }} · {{ g.correct }}/{{ g.rounds }} trouvées</span>
+              <span class="num">{{ g.score }} pts</span>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="muted">Pas encore de partie. Lance-toi !</p>
+      {% endif %}
+    </section>
+    {% endif %}
+    <section class="card">
+      <h2 class="section-title">Classement</h2>
+      {% if top %}
+        <div class="list-rows">
+          {% for r in top %}
+            <div class="row">
+              <span class="rank-badge rank-{{ loop.index }}">{{ loop.index }}</span>
+              <img src="{{ r.avatar }}" alt="" referrerpolicy="no-referrer">
+              <span class="grow">{{ r.name }}</span>
+              <span class="num">{{ r.total }} pts · {{ r.wins }} 🏆</span>
+            </div>
+          {% endfor %}
+        </div>
+        <p><a class="btn small ghost" href="/classement">Tout le classement →</a></p>
+      {% else %}
+        <p class="muted">Personne n'a encore joué.</p>
+      {% endif %}
+    </section>
+  </div>
+</main>
+{% endblock %}
+{% block scripts %}{% if user %}<script src="/static/home.js?v={{ v }}"></script>{% endif %}{% endblock %}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf" content="{{ csrf }}">
+<title>{% block title %}DWAblindtest{% endblock %}</title>
+<link rel="icon" href="/static/favicon.svg?v={{ v }}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Shippori+Mincho:wght@600;800&family=Unbounded:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/static/app.css?v={{ v }}">
+</head>
+<body>
+<div id="stars" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="/" aria-label="DWAblindtest"><span class="dwa">DWA</span><span class="word">blindtest</span></a>
+  <nav>
+    <a href="/" class="{% if active == 'home' %}on{% endif %}">Jouer</a>
+    <a href="/classement" class="{% if active == 'rank' %}on{% endif %}">Classement</a>
+    <a href="{{ music_url }}">DWAnisongs</a>
+    <a href="{{ anime_url }}/list">DWAnime</a>
+  </nav>
+  <div class="top-right">
+    {% block topright %}{% endblock %}
+    {% if user %}
+      <a class="me" href="{{ anime_url }}/profile" title="Mon profil anime"><img src="{{ user.avatar }}" alt="" referrerpolicy="no-referrer"><span>{{ user.name }}</span></a>
+      <a class="icon-btn" href="/logout" title="Déconnexion" aria-label="Déconnexion"><svg viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg></a>
+    {% else %}
+      <a class="btn accent small" href="/login">Connexion</a>
+    {% endif %}
+  </div>
+</header>
+{% block body %}{% endblock %}
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

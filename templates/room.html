@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Salon {{ code }} · DWAblindtest{% endblock %}
+{% block topright %}
+  <label class="vol" title="Volume">🔊<input id="vol" type="range" min="0" max="100" value="80" aria-label="Volume"></label>
+{% endblock %}
+{% block body %}
+<main class="room" id="room" data-code="{{ code }}">
+  <aside class="side">
+    <div class="card">
+      <div class="settings"><h3>Joueurs</h3></div>
+      <div class="players" id="players"></div>
+    </div>
+  </aside>
+  <section class="stage" id="stage"><div class="card center">Connexion au salon…</div></section>
+  <aside class="settings-col" id="settings-col">
+    <div class="card settings" id="settings"></div>
+  </aside>
+</main>
+<audio id="audio" preload="auto"></audio>
+{% endblock %}
+{% block scripts %}<script src="/static/room.js?v={{ v }}"></script>{% endblock %}

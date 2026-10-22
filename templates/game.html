@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Partie #{{ g.id }} · DWAblindtest{% endblock %}
+{% block body %}
+<main class="home">
+  <section class="card">
+    <h1 class="section-title">Partie #{{ g.id }} · salon {{ g.code }}</h1>
+    <p class="muted small">{{ g.players }} joueur{{ "s" if g.players > 1 }} · {{ g.rounds }} manches
+      {% if g.ended_at %}· {{ g.ended_at.strftime("%d/%m/%Y %H:%M") }}{% endif %}</p>
+    <table class="table">
+      <thead><tr><th>#</th><th>Joueur</th><th class="n">Points</th><th class="n">Trouvées</th><th class="n">Série max</th></tr></thead>
+      <tbody>
+      {% for p in players %}
+        <tr>
+          <td><span class="rank-badge rank-{{ p.rank }}">{{ p.rank }}</span></td>
+          <td><div class="who">{% if infos[p.user_id] %}<img src="{{ infos[p.user_id].avatar }}" alt="" referrerpolicy="no-referrer">{% endif %}{{ p.name }}</div></td>
+          <td class="n">{{ p.score }}</td><td class="n">{{ p.correct }}/{{ p.answered }}</td><td class="n">{{ p.best_streak }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  <section class="card">
+    <h2 class="section-title">Les musiques</h2>
+    <table class="table">
+      <thead><tr><th>#</th><th>Anime</th><th>Musique</th><th class="n">Difficulté</th><th class="n">Trouvée par</th></tr></thead>
+      <tbody>
+      {% for r in rounds %}
+        <tr>
+          <td class="n">{{ r.idx + 1 }}</td>
+          <td><a href="{{ music_url }}/#a-{{ r.root_id }}">{{ r.anime }}</a></td>
+          <td><span class="tag {{ r.kind }}">{{ r.kind }}</span> {{ r.song }}</td>
+          <td class="n">{{ r.difficulty }}</td><td class="n">{{ r.found }}/{{ g.players }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  <p><a class="btn accent" href="/">Rejouer</a></p>
+</main>
+{% endblock %}

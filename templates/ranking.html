@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% set active = "rank" %}
+{% block title %}Classement · DWAblindtest{% endblock %}
+{% block body %}
+<main class="home">
+  <section class="card">
+    <h1 class="section-title">Classement général</h1>
+    <p class="muted small">Points cumulés sur toutes les parties. Une victoire compte quand il y avait au moins 2 joueurs.</p>
+    {% if rows %}
+    <table class="table">
+      <thead><tr><th>#</th><th>Joueur</th><th class="n">Points</th><th class="n">Victoires</th><th class="n">Parties</th>
+        <th class="n">Réussite</th><th class="n">Meilleure partie</th><th class="n">Série</th></tr></thead>
+      <tbody>
+      {% for r in rows %}
+        <tr>
+          <td><span class="rank-badge rank-{{ loop.index }}">{{ loop.index }}</span></td>
+          <td><div class="who"><img src="{{ r.avatar }}" alt="" referrerpolicy="no-referrer">{{ r.name }}</div></td>
+          <td class="n">{{ r.total }}</td><td class="n">{{ r.wins }}</td><td class="n">{{ r.games }}</td>
+          <td class="n">{{ r.accuracy }} %</td><td class="n">{{ r.best }}</td><td class="n">{{ r.streak }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="muted">Personne n'a encore joué.</p>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}
